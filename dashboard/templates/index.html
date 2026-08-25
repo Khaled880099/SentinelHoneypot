@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SentinelHoneypot Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; color: #17202a; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+    .stat { padding: 1rem; background: #eef3f7; border-radius: 8px; }
+    .value { display: block; font-size: 2rem; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+    th, td { text-align: left; padding: .6rem; border-bottom: 1px solid #d8dee4; }
+  </style>
+</head>
+<body>
+  <h1>SentinelHoneypot</h1>
+  <div class="stats" id="stats"></div>
+  <h2>Recent events</h2>
+  <table><thead><tr><th>Time</th><th>Type</th><th>Source</th></tr></thead><tbody id="events"></tbody></table>
+  <script>
+    async function refresh() {
+      const data = await fetch('/api/stats').then(response => response.json());
+      document.getElementById('stats').innerHTML = [
+        ['Sessions', data.total_sessions], ['Attacks', data.total_attacks],
+        ['Unique IPs', data.unique_ips], ['Commands', data.commands_captured]
+      ].map(([label, value]) => `<div class="stat">${label}<span class="value">${value}</span></div>`).join('');
+      document.getElementById('events').innerHTML = data.recent_events.slice().reverse().map(event =>
+        `<tr><td>${event.timestamp}</td><td>${event.type}</td><td>${event.source_ip || 'unknown'}</td></tr>`
+      ).join('');
+    }
+    refresh();
+    setInterval(refresh, 3000);
+  </script>
+</body>
+</html>

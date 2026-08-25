@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+logs/
+captured_files/
+ssh_host_key.venv/
+__pycache__/
+*.py[cod]
+logs/
+captured_files/
+ssh_host_key

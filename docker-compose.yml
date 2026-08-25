@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  sentinel-honeypot:
+    build: .
+    container_name: sentinel-honeypot
+    ports:
+      - "2222:2222"    # SSH Honeypot
+      - "8080:8080"    # HTTP Honeypot
+      - "5000:5000"    # Dashboard
+    volumes:
+      - ./logs:/app/logs
+      - ./captured_files:/app/captured_files
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - honeypot-net
+
+networks:
+  honeypot-net:
+    driver: bridge
