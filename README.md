@@ -205,9 +205,6 @@ cat logs/honeypot.jsonl | jq -r '.type' | sort | uniq -c | sort -rn
 
 **Khaled Abdelkader El-Sharkawy Mohamed El-Morsi**
 
-- GitHub: [@Khaled880099](https://github.com/Khaled880099)
-- LinkedIn: [khaled-elsharawy](https://linkedin.com/in/khaled-elsharawy)
-
 ---
 
 ## License
